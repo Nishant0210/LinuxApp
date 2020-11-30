@@ -1,22 +1,13 @@
-
 import 'dart:ui';
-
 import 'package:LinuxApp/options/aws.dart';
 import 'package:LinuxApp/options/docker/docker.dart';
-import 'package:LinuxApp/options/hadoop.dart';
-import 'package:LinuxApp/options/jenkins.dart';
 import 'package:LinuxApp/options/terminal.dart';
+import 'package:LinuxApp/options/terminalLogs.dart';
 import 'package:flutter/material.dart';
 
 class Options extends StatelessWidget {
-  List features = ["Terminal", "Docker", "AWS", "Jenkins", "Hadoop"];
-  List feature_fun = [
-    Terminal(),
-    Docker(),
-    AWS(),
-    Jenkins(),
-    Hadoop()
-  ];
+  List features = ["Terminal", "Terminal Logs" , "Docker", "AWS", ];
+  List feature_fun = [Terminal(), TerminalLogs(), Docker(), AWS(), ];
 
   @override
   Widget build(BuildContext context) {

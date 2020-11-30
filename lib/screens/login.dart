@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:LinuxApp/firebase/getUser.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyLogin extends StatefulWidget {
   @override
@@ -18,17 +20,24 @@ class _MyLoginState extends State<MyLogin> {
   var containskey;
 
   Duration get loginTime => Duration(milliseconds: 2250);
+
+  Future<void> signOut() async {
+    await authc.signOut();
+  }
+
   Future<String> _authUser(LoginData data) {
     print('Name: ${data.name}, Password: ${data.password}');
+
     return Future.delayed(loginTime).then((_) async {
       var user = await authc.createUserWithEmailAndPassword(
           email: data.name, password: data.password);
-      // if (!users.containsKey(data.name)) {
-      //   return 'Username not exists';
-      // }
-      // if (users[data.name] != data.password) {
-      //   return 'Password does not match';
-      // }
+
+      DocumentReference userRef = getUserDBRef();
+      userRef
+          .set({'timestamp': FieldValue.serverTimestamp()})
+          .then((value) => print("Log Added"))
+          .catchError((error) => print("Failed to add Log: $error"));
+
       return null;
     });
   }
@@ -51,9 +60,9 @@ class _MyLoginState extends State<MyLogin> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return FlutterLogin(
         title: 'Linux App',
         theme: LoginTheme(
@@ -62,10 +71,9 @@ class _MyLoginState extends State<MyLogin> {
         onSignup: _authUser,
         onLogin: _loginUser,
         onSubmitAnimationCompleted: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Options()),
-          );
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => Options(),
+          ));
         },
         onRecoverPassword: null);
   }

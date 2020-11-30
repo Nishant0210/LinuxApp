@@ -1,3 +1,4 @@
+import 'package:LinuxApp/firebase/firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -10,18 +11,35 @@ class Terminal extends StatefulWidget {
 
 class _TerminalState extends State<Terminal> {
   var fsconnect = FirebaseFirestore.instance;
+  //DocumentReference userDBRef = FirebaseFirestore.instance.collection('TerminalLogs').doc("TerminalLogs/hello");
   var cmd;
   var webdata;
   var _controller = TextEditingController();
   TextEditingController ipController = new TextEditingController();
+
+  Future<void> addLog(command, output) {
+    // Call the user's CollectionReference to add a new user
+    return dbRef
+        .add({
+          'command': command, // John Doe
+          'output': output,
+          'timestamp': FieldValue.serverTimestamp() // Stokes and Sons
+        })
+        .then((value) => print("Log Added"))
+        .catchError((error) => print("Failed to add Log: $error"));
+  }
+
   web(cmd) async {
     var url = 'http://${ipController.text}/cgi-bin/script.py?x=${cmd}';
     var response = await http.get(url);
     setState(() {
       webdata = response.body;
     });
-    fsconnect.collection("linuxcmdoutput").add({'$cmd': '$webdata'});
-    print(webdata);
+    //fsconnect.collection("linuxcmdoutput").add({'$cmd': '$webdata'});
+
+    print(dbRef.id);
+    
+    addLog(cmd, webdata);
   }
 
   @override
