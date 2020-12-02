@@ -24,19 +24,6 @@ class _ImageOptionState extends State<ImageOption> {
     return webdata;
   }
 
-  List functions = ["List", "History", "Remove", "Inspect"];
-  List commands = [
-    "sudo docker image ls",
-    "sudo docker image history ",
-    "sudo docker image remove ",
-    "sudo docker image inspect "
-  ];
-  // List functions_list = [
-  //   ListImages(ipController, cmd),
-  //   ListImages(ipController, cmd),
-  //   ListImages(ipController, cmd),
-  // ];
-
   @override
   Widget build(BuildContext context) {
     List functions = ["List", "History", "Remove", "Inspect", "Pull" , "Push"];

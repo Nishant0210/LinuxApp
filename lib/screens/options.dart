@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:LinuxApp/options/aws.dart';
+import 'package:LinuxApp/options/AWS/aws.dart';
 import 'package:LinuxApp/options/docker/docker.dart';
 import 'package:LinuxApp/options/terminal.dart';
 import 'package:LinuxApp/options/terminalLogs.dart';
