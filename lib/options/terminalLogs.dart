@@ -9,7 +9,7 @@ class TerminalLogs extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Home"),
+        title: new Text("Terminal Logs"),
         backgroundColor: Colors.orange,
       ),
       body: new RetriveData(),
